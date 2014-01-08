@@ -17,9 +17,11 @@ class MassObject < AttrAccessorObject
     params.each do |attr, value| 
       attr = attr.to_sym
       
-      raise "mass assignment to unregistered attribute '#{attr}'" unless self.class.attributes.include?(attr)
-    
-      self.send("#{attr}=", value)
+      if self.class.attributes.include?(attr)
+        self.send("#{attr}=", value)
+      else
+        raise "mass assignment to unregistered attribute '#{attr}'" 
+      end
     end
   end
 end
